@@ -53,10 +53,11 @@ public class Processo {
 		
 	}
 	
-	public boolean executaInstrucoes(){
+	public boolean executaInstrucoes() throws Exception{
 		if (contadorDeInstrucoes <= tempoProcessador) {
 			System.out.println("P"+ Integer.toString(PID)+ " instruction "+ Integer.toString(contadorDeInstrucoes));
 			contadorDeInstrucoes++;
+			Thread.sleep(1000);
 			return true;
 		} else {
 			System.out.println("P"+ Integer.toString(PID)+ " return SIGINT");

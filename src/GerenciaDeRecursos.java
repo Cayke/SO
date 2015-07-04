@@ -1,13 +1,13 @@
 import java.util.concurrent.Semaphore;
  
-public class GerenciaDeRerusos {
+public class GerenciaDeRecursos {
 	
 	static Semaphore scanner = new Semaphore(1);
     static Semaphore impressora = new Semaphore(2);
     static Semaphore modem = new Semaphore(1);
     static Semaphore sata = new Semaphore(2);
     
-    public static void resquisitarScanner(){
+    public void resquisitarScanner(){
     	try {
 			scanner.acquire();
 			System.out.println("scanner adquirido");
@@ -16,7 +16,7 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void resquisitarImpressora(){
+    public void resquisitarImpressora(){
     	try {
 			impressora.acquire();
 			System.out.println("impressora adquirido");
@@ -25,7 +25,7 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void resquisitarModem(){
+    public void resquisitarModem(){
     	try {
 			modem.acquire();
 			System.out.println("modem adquirido");
@@ -34,7 +34,7 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void resquisitarSata(){
+    public void resquisitarSata(){
     	try {
 			sata.acquire();
 			System.out.println("sata adquirido");
@@ -43,7 +43,7 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void liberarScanner(){
+    public void liberarScanner(){
     	try {
 			scanner.release();
 			System.out.println("scanner liberado");
@@ -52,7 +52,7 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void liberarImpressora(){
+    public void liberarImpressora(){
     	try {
 			impressora.release();
 			System.out.println("impressora liberado");
@@ -61,7 +61,7 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void liberarModem(){
+    public void liberarModem(){
     	try {
 			modem.release();
 			System.out.println("modem liberado");
@@ -70,25 +70,12 @@ public class GerenciaDeRerusos {
 		}
     }
     
-    public static void liberarSata(){
+    public void liberarSata(){
     	try {
 			sata.release();
 			System.out.println("sata liberado");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    }
-    
-    public static void main(String[] args) {
-    	
-    	resquisitarScanner();
-    	liberarScanner();
-    	resquisitarScanner();
-    	liberarScanner();
-    	resquisitarImpressora();
-    	resquisitarImpressora();
-    	liberarImpressora();
-    	liberarImpressora();
-    }
-    
+    }    
 }

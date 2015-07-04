@@ -11,17 +11,19 @@ public class GerenciadorDeProcessos {
 	Fila filaUsuario1 = new Fila();
 	Fila filaUsuario2 = new Fila();
 	Fila filaUsuario3 = new Fila();
-
-	public void loopPrincipal() {
+	GerenciaDeRecursos recurso = new GerenciaDeRecursos();
+	Processo processoExecutando = null;
+	
+	public void loopPrincipal() throws Exception {
 		boolean temProcessos = true;
 		int cicloAtual = 0;
-		Processo processoExecutando = null;
 		while (temProcessos) {
 			
 			globalParaLocal(cicloAtual);
 			
 			if (processoExecutando != null) {
 				if(!processoExecutando.executaInstrucoes()){
+					desalocarRecurso();
 					processoExecutando = null;
 				}
 				else if(preempcao(processoExecutando.getPrioridade())){
@@ -37,6 +39,7 @@ public class GerenciadorDeProcessos {
 					if (processoExecutando != null) {
 						System.out.println(processoExecutando.toString());
 						System.out.println("P" + Integer.toString(processoExecutando.getPID()) + " STARTED");
+						alocarRecursos();
 					}
 				}
 			}
@@ -144,5 +147,37 @@ public class GerenciadorDeProcessos {
 
 	public void imprimeProcessos() {
 		filaGlobal.imprime();
+	}
+	
+	private void alocarRecursos(){
+		if(processoExecutando.isScanner()){
+			recurso.resquisitarScanner();
+		}
+		if(processoExecutando.isImpressora()){
+			recurso.resquisitarImpressora();
+		}
+		if(processoExecutando.isModem()){
+			recurso.resquisitarModem();
+		}
+		if(processoExecutando.isDrivers()){
+			recurso.resquisitarSata();
+		}
+		
+	}
+	
+	private void desalocarRecurso(){
+		if(processoExecutando.isScanner()){
+			recurso.liberarScanner();
+		}
+		if(processoExecutando.isImpressora()){
+			recurso.liberarImpressora();
+		}
+		if(processoExecutando.isModem()){
+			recurso.liberarModem();
+		}
+		if(processoExecutando.isDrivers()){
+			recurso.liberarSata();
+		}
+			
 	}
 }
