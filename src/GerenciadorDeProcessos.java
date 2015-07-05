@@ -22,15 +22,17 @@ public class GerenciadorDeProcessos {
 			globalParaLocal(cicloAtual);
 			
 			if (processoExecutando != null) {
+				System.out.println("\nciclo:"+cicloAtual);
+				cicloAtual++;
 				if(!processoExecutando.executaInstrucoes()){
 					desalocarRecurso();
 					processoExecutando = null;
+					cicloAtual--;
 				}
 				else if(preempcao(processoExecutando.getPrioridade())){
 					aumentaPrioridade(processoExecutando);
 					processoExecutando = null;
 				}
-				
 			} else {
 				processoExecutando = achaProcessoPraExecutar();
 				if (processoExecutando == null && filaGlobal.tamanho() == 0) {
@@ -43,8 +45,6 @@ public class GerenciadorDeProcessos {
 					}
 				}
 			}
-			
-			cicloAtual++;
 		}
 	}
 
@@ -150,17 +150,64 @@ public class GerenciadorDeProcessos {
 	}
 	
 	private void alocarRecursos(){
-		if(processoExecutando.isScanner()){
+		if(processoExecutando.isScanner() && recurso.scanner.availablePermits() == 0 && !processoExecutando.getPossuiScanner()){
+			aumentaPrioridade(processoExecutando);
+			//alocaProcessoAFila(processoExecutando);
+			System.out.println("Scanner não está disponivel, processo volta pra fila");
+			processoExecutando = null;
+			return;
+		}
+		if(processoExecutando.isImpressora() == 1 && recurso.impressora1.availablePermits() == 0 && !processoExecutando.getPossuiImpressora()){
+			aumentaPrioridade(processoExecutando);
+			//alocaProcessoAFila(processoExecutando);
+			System.out.println("impresora1 não está disponivel, processo volta pra fila");
+			processoExecutando = null;
+			return;
+		}
+		if(processoExecutando.isImpressora() == 2 && recurso.impressora2.availablePermits() == 0 && !processoExecutando.getPossuiImpressora()){
+			aumentaPrioridade(processoExecutando);
+			//alocaProcessoAFila(processoExecutando);
+			System.out.println("impresora2 não está disponivel, processo volta pra fila");
+			processoExecutando = null;
+			return;
+		}
+		if(processoExecutando.isModem() && recurso.modem.availablePermits() == 0 && !processoExecutando.getPossuiModem()){
+			aumentaPrioridade(processoExecutando);
+			//alocaProcessoAFila(processoExecutando);
+			System.out.println("modem não está disponivel, processo volta pra fila");
+			processoExecutando = null;
+			return;
+		}
+		if(processoExecutando.isDrivers() == 1 && recurso.sata1.availablePermits() == 0 && !processoExecutando.getPossuiDrivers()){
+			//aumentaPrioridade(processoExecutando);
+			alocaProcessoAFila(processoExecutando);
+			System.out.println("sata não está disponivel, processo volta pra fila");
+			processoExecutando = null;
+			return;
+		}
+		if(processoExecutando.isDrivers() == 2 && recurso.sata2.availablePermits() == 0 && !processoExecutando.getPossuiDrivers()){
+			aumentaPrioridade(processoExecutando);
+			//alocaProcessoAFila(processoExecutando);
+			System.out.println("sata não está disponivel, processo volta pra fila");
+			processoExecutando = null;
+			return;
+		}
+		
+		if(processoExecutando.isScanner() && !processoExecutando.getPossuiScanner()){
 			recurso.resquisitarScanner();
+			processoExecutando.setPossuiScanner(true);
 		}
-		if(processoExecutando.isImpressora()){
-			recurso.resquisitarImpressora();
+		if(processoExecutando.isImpressora() > 0 && !processoExecutando.getPossuiImpressora()){
+			recurso.resquisitarImpressora(processoExecutando.isImpressora());
+			processoExecutando.setPossuiImpressora(true);
 		}
-		if(processoExecutando.isModem()){
+		if(processoExecutando.isModem() && !processoExecutando.getPossuiModem()){
 			recurso.resquisitarModem();
+			processoExecutando.setPossuiModem(true);
 		}
-		if(processoExecutando.isDrivers()){
-			recurso.resquisitarSata();
+		if(processoExecutando.isDrivers() > 0 && !processoExecutando.getPossuiDrivers()){
+			recurso.resquisitarSata(processoExecutando.isDrivers());
+			processoExecutando.setPossuiDrivers(true);
 		}
 		
 	}
@@ -169,15 +216,14 @@ public class GerenciadorDeProcessos {
 		if(processoExecutando.isScanner()){
 			recurso.liberarScanner();
 		}
-		if(processoExecutando.isImpressora()){
-			recurso.liberarImpressora();
+		if(processoExecutando.isImpressora() > 0){
+			recurso.liberarImpressora(processoExecutando.isImpressora());
 		}
 		if(processoExecutando.isModem()){
 			recurso.liberarModem();
 		}
-		if(processoExecutando.isDrivers()){
-			recurso.liberarSata();
-		}
-			
+		if(processoExecutando.isDrivers() > 0){
+			recurso.liberarSata(processoExecutando.isDrivers());
+		}			
 	}
 }
