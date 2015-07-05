@@ -10,10 +10,10 @@ public class Processo {
 	
 	private int contadorDeInstrucoes = 1;
 	
-	private boolean impressora;
+	private int impressora;
 	private boolean scanner;
 	private boolean modem;
-	private boolean drivers;
+	private int drivers;
 	
 	public Processo(){
 		PID = globalPID;
@@ -36,19 +36,23 @@ public class Processo {
 		prioridade = Integer.parseInt(sp[1]);
 		tempoProcessador = Integer.parseInt(sp[2]);
 		blocos = Integer.parseInt(sp[3]);
-		impressora = (Integer.parseInt(sp[4]) != 0);
+		impressora = Integer.parseInt(sp[4]);
 		scanner = (Integer.parseInt(sp[5]) != 0);
 		modem = (Integer.parseInt(sp[6]) != 0);
-		drivers = (Integer.parseInt(sp[7]) != 0);
+		drivers = Integer.parseInt(sp[7]);
 	}
 	
 	public String toString(){
 		String s;
-		s = Integer.toString(PID) + ", "
-			+ Integer.toString(tempoInicializacao) + ", "
-			+ Integer.toString(prioridade) + ", "
-			+ Integer.toString(tempoProcessador) + ", "
-			+ Integer.toString(blocos);
+		s = "PID: " + Integer.toString(PID) + "\n"
+			+"offset: " + Integer.toString(offsetMemoria) + "\n"
+			+"blocks: " + Integer.toString(blocos) + "\n"
+			+"priority: " + Integer.toString(prioridade) + "\n"
+			+"time: " + Integer.toString(tempoProcessador)  + "\n"
+			+"printers: " + Integer.toString(impressora)  + "\n"
+			+"scanners: " + (scanner?"1":"0")  + "\n"
+			+"modems: " + (modem?"1":"0")  + "\n"
+			+"drivers: " + Integer.toString(drivers) + "\n";
 		return s;
 		
 	}
