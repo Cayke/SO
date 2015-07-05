@@ -22,8 +22,31 @@ public class Fila {
 		}
 	}
 	
+	public Processo pegaPorIndice(int indice){
+		try{
+			return processos.get(indice);
+		}
+		catch(IndexOutOfBoundsException e){
+			return null;
+		}
+	}
+	
+	public Processo removePorIndice(int indice){
+		try{
+			return processos.remove(indice);
+		}
+		catch(IndexOutOfBoundsException e){
+			return null;
+		}
+	}
+	
 	public Processo olhaProximo(){
-		return processos.get(0);
+		try{
+			return processos.get(0);
+		}
+		catch(IndexOutOfBoundsException e){
+			return null;
+		}
 	}
 	
 	public void imprime(){
