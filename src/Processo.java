@@ -99,6 +99,10 @@ public class Processo {
 	public int getOffsetMemoria() {
 		return offsetMemoria;
 	}
+	
+	public void setOffsetMemoria(int value){
+		offsetMemoria = value;
+	}
 
 	public int getBlocos() {
 		return blocos;
@@ -112,7 +116,7 @@ public class Processo {
 		return contadorDeInstrucoes;
 	}
 
-	public boolean isImpressora() {
+	public int isImpressora() {
 		return impressora;
 	}
 
@@ -124,7 +128,7 @@ public class Processo {
 		return modem;
 	}
 
-	public boolean isDrivers() {
+	public int isDrivers() {
 		return drivers;
 	}
 	
