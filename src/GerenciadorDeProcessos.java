@@ -24,6 +24,7 @@ public class GerenciadorDeProcessos {
 			if (processoExecutando != null) {
 				if(!processoExecutando.executaInstrucoes()){
 					desalocarRecurso();
+					GerenciadorMemoria.getInstance().deallocMemoryWithBaseRegisterAndSize(processoExecutando.getOffsetMemoria(), processoExecutando.getBlocos());
 					processoExecutando = null;
 				}
 				else if(preempcao(processoExecutando.getPrioridade())){
@@ -37,6 +38,7 @@ public class GerenciadorDeProcessos {
 					temProcessos = false;
 				} else {
 					if (processoExecutando != null) {
+						System.out.println("dispatcher=>");
 						System.out.println(processoExecutando.toString());
 						System.out.println("P" + Integer.toString(processoExecutando.getPID()) + " STARTED");
 						alocarRecursos();
@@ -86,21 +88,83 @@ public class GerenciadorDeProcessos {
 	}
 	
 	Processo achaProcessoPraExecutar() {
-		Processo p;
-		p = filaKernel.remover();
+		Processo p = null;
+		//p = filaKernel.remover()
+		p = vasculhaFilaKernel();
 		if (p != null)
 			return p;
-		p = filaUsuario1.remover();
+		//p = filaUsuario1.remover()
+		p = vasculhaFilaUsuario(filaUsuario1);
 		if (p != null)
 			return p;
-		p = filaUsuario2.remover();
+		//p = filaUsuario2.remover()
+		p = vasculhaFilaUsuario(filaUsuario2);
 		if (p != null)
 			return p;
-		p = filaUsuario3.remover();
+		//p = filaUsuario3.remover()
+		p = vasculhaFilaUsuario(filaUsuario3);
 		if (p != null)
 			return p;
-
+		
 		return null;
+	}
+	
+	Processo vasculhaFilaKernel(){
+		Processo p = null;
+		int indice = 0;
+		int offset = -1;
+		boolean procurando = true;
+		while(procurando){
+			p = filaKernel.pegaPorIndice(indice);
+			if(p == null){
+				procurando = false;
+			}
+			else{
+				if(p.getOffsetMemoria() > -1){
+					p = filaKernel.removePorIndice(indice);
+					procurando = false;
+				}
+				else {
+					offset = GerenciadorMemoria.getInstance().searchForSpaceInUserMemory(p.getBlocos());
+					if (offset > -1) {
+						p = filaKernel.removePorIndice(indice);
+						p.setOffsetMemoria(offset);
+						procurando = false;
+					}
+				}
+			}
+			indice++;
+		}
+		return p;
+	}
+	
+	Processo vasculhaFilaUsuario(Fila fila){
+		Processo p = null;
+		int indice = 0;
+		int offset = -1;
+		boolean procurando = true;
+		while(procurando){
+			p = fila.pegaPorIndice(indice);
+			if(p == null){
+				procurando = false;
+			}
+			else{
+				if(p.getOffsetMemoria() > -1){
+					p = fila.removePorIndice(indice);
+					procurando = false;
+				}
+				else {
+					offset = GerenciadorMemoria.getInstance().searchForSpaceInUserMemory(p.getBlocos());
+					if (offset > -1) {
+						p = fila.removePorIndice(indice);
+						p.setOffsetMemoria(offset);
+						procurando = false;
+					}
+				}
+			}
+			indice++;
+		}
+		return p;
 	}
 
 	void alocaProcessoAFila(Processo p) {
