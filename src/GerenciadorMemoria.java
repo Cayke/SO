@@ -4,8 +4,8 @@ public final class  GerenciadorMemoria {	//classe singleton
 	private static GerenciadorMemoria instance = null;
 
 	//define size bits map
-	private static final int sizeOfMap = 20;
-	private static final int sizeOfRealTime = 5;
+	private static final int sizeOfMap = 1024;
+	private static final int sizeOfRealTime = 64;
 
 	//mapa de bits
 	private boolean[] bitsMap;
