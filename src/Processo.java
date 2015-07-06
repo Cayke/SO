@@ -15,6 +15,11 @@ public class Processo {
 	private boolean modem;
 	private int drivers;
 	
+	private boolean possuiImpressora;
+	private boolean possuiScanner;
+	private boolean possuiModem;
+	private boolean possuiDrivers;
+	
 	public Processo(){
 		PID = globalPID;
 		globalPID++;
@@ -132,14 +137,35 @@ public class Processo {
 		return drivers;
 	}
 	
+	public boolean getPossuiImpressora(){
+		return possuiImpressora;
+	}
 	
+	public boolean getPossuiScanner(){
+		return possuiScanner;
+	}
 	
+	public boolean getPossuiModem(){
+		return possuiModem;
+	}
 	
+	public boolean getPossuiDrivers(){
+		return possuiDrivers;
+	}
 	
-
+	public void setPossuiImpressora(boolean possui){
+		possuiImpressora = possui;
+	}
 	
+	public void setPossuiScanner(boolean possui){
+		possuiScanner = possui;
+	}
 	
+	public void setPossuiModem(boolean possui){
+		possuiModem = possui;
+	}
 	
-	
-
+	public void setPossuiDrivers(boolean possui){
+		possuiDrivers = possui;
+	}
 }
