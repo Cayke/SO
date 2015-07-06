@@ -86,7 +86,7 @@ public final class  GerenciadorMemoria {	//classe singleton
 
 
 		//apagar
-		System.out.println("Falha ao alocar. Nao ha espaco.");
+		//System.out.println("Falha ao alocar memoria. Nao ha espaco.");
 
 		//nao achou espaco
 		return -1;
@@ -143,7 +143,7 @@ public final class  GerenciadorMemoria {	//classe singleton
 
 
 		//apagar
-		System.out.println("Falha ao alocar. Nao ha espaco.");
+		//System.out.println("Falha ao alocar memoria. Nao ha espaco.");
 
 		//nao achou espaco
 		return -1;
@@ -167,8 +167,8 @@ public final class  GerenciadorMemoria {	//classe singleton
 		}
 
 		//apagar
-		System.out.println("Alocou com sucesso. Mapa de bits:");
-		GerenciadorMemoria.getInstance().printMap();
+		//System.out.println("Alocou memoria com sucesso. Registrador base = " + baseRegister + " , tamanho = " + size);
+		//GerenciadorMemoria.getInstance().printMap();
 
 		return baseRegister;
 	}
@@ -182,8 +182,8 @@ public final class  GerenciadorMemoria {	//classe singleton
 		}
 
 		//apagar
-		System.out.println("Desalocou com sucesso. Mapa de bits:");
-		GerenciadorMemoria.getInstance().printMap();
+		//System.out.println("Desalocou memoria com sucesso. Registrador base = " + baseRegister + " , tamanho = " + size);
+		//GerenciadorMemoria.getInstance().printMap();
 	}
 
 
