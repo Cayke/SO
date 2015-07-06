@@ -214,6 +214,8 @@ public class GerenciadorDeProcessos {
 	}
 	
 	private void alocarRecursos(){
+		
+		//evitando o dead lock
 		if(processoExecutando.isScanner() && recurso.scanner.availablePermits() == 0 && !processoExecutando.getPossuiScanner()){
 			aumentaPrioridade(processoExecutando);
 			//alocaProcessoAFila(processoExecutando);
@@ -243,8 +245,8 @@ public class GerenciadorDeProcessos {
 			return;
 		}
 		if(processoExecutando.isDrivers() == 1 && recurso.sata1.availablePermits() == 0 && !processoExecutando.getPossuiDrivers()){
-			//aumentaPrioridade(processoExecutando);
-			alocaProcessoAFila(processoExecutando);
+			aumentaPrioridade(processoExecutando);
+			//alocaProcessoAFila(processoExecutando);
 			System.out.println("sata não está disponivel, processo volta pra fila");
 			processoExecutando = null;
 			return;
@@ -257,6 +259,7 @@ public class GerenciadorDeProcessos {
 			return;
 		}
 		
+		//alocando os recursos
 		if(processoExecutando.isScanner() && !processoExecutando.getPossuiScanner()){
 			recurso.resquisitarScanner();
 			processoExecutando.setPossuiScanner(true);
