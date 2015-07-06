@@ -108,7 +108,7 @@ public class Processo {
 	public void setOffsetMemoria(int value){
 		offsetMemoria = value;
 	}
-	
+
 	public int getBlocos() {
 		return blocos;
 	}
