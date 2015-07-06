@@ -34,19 +34,21 @@ public class Processo {
 		tempoProcessador = _tempoProcessador;
 	}
 	
-	public Processo(String s){
+	//construtor importante
+	public Processo(String s) {
 		this();
 		String[] sp = s.split(",");
 		tempoInicializacao = Integer.parseInt(sp[0]);
 		prioridade = Integer.parseInt(sp[1]);
 		tempoProcessador = Integer.parseInt(sp[2]);
+		offsetMemoria = -1;
 		blocos = Integer.parseInt(sp[3]);
 		impressora = Integer.parseInt(sp[4]);
 		scanner = (Integer.parseInt(sp[5]) != 0);
 		modem = (Integer.parseInt(sp[6]) != 0);
 		drivers = Integer.parseInt(sp[7]);
 	}
-	
+
 	public String toString(){
 		String s;
 		s = "PID: " + Integer.toString(PID) + "\n"

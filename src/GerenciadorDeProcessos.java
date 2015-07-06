@@ -125,7 +125,7 @@ public class GerenciadorDeProcessos {
 					procurando = false;
 				}
 				else {
-					offset = GerenciadorMemoria.getInstance().searchForSpaceInUserMemory(p.getBlocos());
+					offset = GerenciadorMemoria.getInstance().searchForSpaceRealTimeMemory(p.getBlocos());
 					if (offset > -1) {
 						p = filaKernel.removePorIndice(indice);
 						p.setOffsetMemoria(offset);
